@@ -8,6 +8,15 @@ const SHEETS = {
   glossary: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQHaHBI3grXpyBaMf14WmFMgQLHYM7v11WJrakibIAxS6rV5TkQuNftofVrAllAcsCA3DYvliBxXXm_/pub?gid=1101912794&single=true&output=csv'
 };
 
+// --- ADDITIONAL FIELDS CONFIGURATION ---
+// Manually specify extra columns per subsheet
+const EXTRA_FIELDS = {
+  zeit: ['Art', 'Materialität', 'erste Verwendung', 'letzte Verwendung', 'Entschlüsselung'],
+  gefahr: ['Art', 'Kategorie', 'Menschlicher Bezug', 'Räumlicher Bezug'],
+  stories: ['Geographie', 'Gefahrenschwere', 'Gefahrenstatus'],
+  endlager: ['Status', 'Geographie', 'Umgebung', 'Population']    // example
+};
+
 // --- MAIN FUNCTION ---
 async function loadData() {
   const sidebarEl = document.getElementById('site-description');
@@ -87,7 +96,7 @@ async function loadData() {
 
   // --- Sidebar buttons ---
   sidebarButtonsEl.querySelectorAll('button').forEach(btn => {
-    btn.classList.add('inactive'); // initialize all as inactive
+    btn.classList.add('inactive');
     btn.addEventListener('click', () => {
       const key = btn.dataset.section.toLowerCase();
       updateSidebar(key);
@@ -97,7 +106,7 @@ async function loadData() {
 
   // --- Main buttons ---
   mainButtonsEl.querySelectorAll('button').forEach(btn => {
-    btn.classList.add('inactive'); // initialize all as inactive
+    btn.classList.add('inactive');
     btn.addEventListener('click', () => {
       const key = btn.dataset.content.toLowerCase();
       if (key === 'glossary') {
@@ -151,8 +160,8 @@ async function loadData() {
         card.className = `card ${widthClass}`;
         card.innerHTML = `
           ${entry['Image URL'] ? `<img src="${entry['Image URL']}" alt="">` : ''}
-          <h2>${entry.Title || ''}</h2>
-          <p>${descriptionWithLink || ''}</p>
+          <h2>${entry.Title || entry.Titel || ''}</h2>
+          <p>${descriptionWithLink || entry.Beschreibung || ''}</p>
           ${
             entry['Source Link']
               ? `<p><a href="${entry['Source Link']}" target="_blank">Source</a></p>`
@@ -161,6 +170,20 @@ async function loadData() {
           <small>${entry.Tags || ''}</small>
         `;
 
+        // --- ✅ Dynamically add extra fields if defined for the sheet ---
+        const extraCols = EXTRA_FIELDS[key];
+        if (extraCols && extraCols.length > 0) {
+          const extraInfo = document.createElement('div');
+          extraInfo.className = `${key}-details`;
+          extraCols.forEach(col => {
+            if (entry[col]) {
+              extraInfo.innerHTML += `<p><strong>${col}:</strong> ${entry[col]}</p>`;
+            }
+          });
+          if (extraInfo.innerHTML.trim()) card.appendChild(extraInfo);
+        }
+
+        // --- Optional chart embed section ---
         if (entry['Chart Embed']) {
           const chartURLs = entry['Chart Embed'].split(',').map(u => u.trim());
           chartURLs.forEach(url => {
@@ -221,7 +244,6 @@ async function loadData() {
   // --- Default load ---
   updateSidebar('about');
   updateMain('endlager');
-  // Set initial active button states
   setActiveButton(sidebarButtonsEl, sidebarButtonsEl.querySelector('button'));
   setActiveButton(mainButtonsEl, mainButtonsEl.querySelector('button'));
 }
