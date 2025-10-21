@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuclear Semiotics</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Basic styling for the new buttons in the main section */
+    #main-buttons button {
+      padding: 10px 15px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    /* Simple styling to visually separate the button row */
+    #main-buttons {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="layout">
+    <aside>
+  <h1 id="site-title">Nukleare Semiotik</h1>
+  
+  <div id="sidebar-buttons">
+    <button data-section="about">About</button>
+    <button data-section="method">Methodik</button>
+  </div>
+
+  <div id="site-description">Loading description...</div>
+</aside>
+
+
+    <main>
+      <div id="main-buttons">
+        <button data-content="endlager">Endlager</button>
+        <button data-content="stories">Stories</button>
+        <button data-content="zeit">Zeit</button>
+        <button data-content="gefahr">Gefahr</button>
+        <button data-content="glossary">Glossar</button>
+      </div>
+
+      <div id="main-content">
+        <div id="entries">Loading data...</div>
+        </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+
+  <script>
+  window.addEventListener("message", (event) => {
+    if (event.data["datawrapper-height"]) {
+      for (const chartId in event.data["datawrapper-height"]) {
+        const iframe = document.querySelector(`iframe[src*="${chartId}"]`);
+        if (iframe) {
+          iframe.style.height = event.data["datawrapper-height"][chartId] + "px";
+        }
+      }
+    }
+  });
+  </script>
+</body>
+</html>

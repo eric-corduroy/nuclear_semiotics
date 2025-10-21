@@ -1,0 +1,270 @@
+/* --- Base styling --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #fafafa;
+  color: #222;
+  overflow: hidden; /* no global scroll */
+}
+
+/* --- Two-column layout --- */
+#layout {
+  display: flex;
+  flex-direction: row; /* text left, content right */
+  height: 100vh;
+  width: 100vw;
+}
+
+/* -------------------------------------
+   LINK STYLES
+------------------------------------- */
+
+a {
+  color: #18cc00;
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+a:hover,
+a:focus {
+  color: #d4ff5c;
+}
+
+a:active {
+  color: #004cff;
+}
+
+/* For links inside the sidebar */
+aside a {
+  color: #222;
+}
+
+aside a:hover {
+  color: #000;
+}
+
+/* Links inside cards or main content */
+#entries a {
+  color: #003cff;
+}
+
+#entries a:hover {
+  color: #001f66;
+}
+
+/* --- LEFT: Sidebar --- */
+aside {
+  flex: 1;
+  min-width: 250px;   /* ensures sidebar is visible */
+  padding: 2rem;
+  background: #5b4b1a;
+  border-right: 1px solid #ddd;
+
+  display: flex;          
+  flex-direction: column; 
+  overflow-y: auto;       
+}
+
+#site-title {
+  margin-top: 0;
+  font-size: 5rem;
+  font-weight: 600;
+  color: #d4ff5c;
+}
+
+#site-description {
+  flex: 1 1 auto;
+  overflow: visible;
+  margin-top: 1rem;
+  font-size: 2.2rem;
+  line-height: 1.1;
+  color: #d4ff5c;
+  max-width: 1080px;
+}
+
+/* --- Sidebar buttons (sticky) --- */
+#sidebar-buttons {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+}
+
+#sidebar-buttons button {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Inactive / active states */
+#sidebar-buttons button.inactive {
+  background-color: #d4ff5c;
+  color: #5b4b1a;
+}
+
+#sidebar-buttons button.active {
+  background-color: #444;
+  color: #d4ff5c;
+}
+
+#sidebar-buttons button:hover {
+  background-color: #444;
+}
+
+/* --- RIGHT: Cards --- */
+main {
+  flex: 1.5;
+  overflow-y: auto;
+  padding: 2rem;
+  background: #d4ff5c;
+}
+
+/* --- Main buttons (sticky) --- */
+#main-buttons {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+}
+
+#main-buttons button {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Inactive / active states */
+#main-buttons button.inactive {
+  background-color: #d4ff5c;
+  color: #282828;
+}
+
+#main-buttons button.active {
+  background-color: #5b4b1a;
+  color: #282828;
+}
+
+#main-buttons button:hover {
+  background-color: #5b4b1a;
+  color: #282828;
+}
+
+#entries {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* --- Card style --- */
+.card {
+  background: rgba(93, 143, 237, 0);
+  border-color: #222;
+  border-width: 2px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: grayscale(1) brightness(1.2) contrast(1.2);
+  mix-blend-mode: multiply;
+  background-color: #1e3a8a;
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.card p {
+  margin: 0.25rem 0 0.5rem;
+}
+
+small {
+  color: #666;
+}
+
+/* --- Chart embeds --- */
+.chart-wrapper {
+  width: 100%;
+  margin-top: 0.75rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.chart-wrapper iframe {
+  width: 100%;
+  border: none;
+  display: block;
+}
+
+/* --- Glossary terms in main content --- */
+.glossary-term {
+  cursor: pointer;
+  padding: 0.1rem 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.glossary-term h3 {
+  margin: 0;
+  font-size: 6rem;
+  font-weight: 600;
+  color: #5b4b1a;
+  transition: color 0.3s ease;
+}
+
+.glossary-term:hover h3 {
+  color: #000000;
+}
+
+.glossary-term p {
+  margin: 0.25rem 0 0 0;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  color: #333;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+/* When glossary term is expanded */
+.glossary-term.expanded p {
+  max-height: 500px;
+  padding-top: 0.25rem;
+}
+
+/* --- Responsive tweak (stack vertically on small screens) --- */
+@media (max-width: 800px) {
+  #layout {
+    flex-direction: column;
+  }
+
+  aside {
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+}
